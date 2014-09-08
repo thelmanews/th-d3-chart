@@ -1,0 +1,13 @@
+{
+  "name": "th-d3-chart",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-d3-chart.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#0.3.4",
+    "platform": "Polymer/platform#0.3.4",
+    "d3": "latest",
+    "the-animated": "https://github.com/thelmanews/th-animated.git",
+    "the-theme": "https://github.com/thelmanews/th-theme.git"
+  }
+}
