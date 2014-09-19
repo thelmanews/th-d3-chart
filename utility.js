@@ -7,33 +7,33 @@ Thelma.util = {
 
 Thelma.chartValidation = {
 
-	errors : [],
-	validateChartData: function(polymerObj) {
-		// polymerObj is passed to the function to make chartValidation not dependant on polymer
-		
-		var errors = polymerObj.errors;
-		var i = 0;
-		if(!polymerObj.chartData) {
-			errors.push('no chart data');
-		}
-		errors = errors.concat(polymerObj.chartSpecificDataValidate());
+  errors : [],
+  validateChartData: function(polymerObj) {
+    // polymerObj is passed to the function to make chartValidation not dependant on polymer
+    
+    var errors = polymerObj.errors;
+    var i = 0;
+    if(!polymerObj.chartData) {
+      errors.push('no chart data');
+    }
+    errors = errors.concat(polymerObj.chartSpecificDataValidate());
 
-		if(errors.length>0) {
-			// polymerObj.$.chart.style.opacity = 0.5; // this is for testing
-			// polymerObj.$.data_errors.style.display = 'block'; // this is for testing
-			
-			for (i; i < errors.length; i++){	
-				// polymerObj.$.data_errors.appendChild(document.createElement('li')).innerHTML = errors[i].msg; // this is for testing
-				polymerObj.asyncFire('th-error', errors[i]); // where th-error is an object containing details
-			}
-		}
-		
+    if(errors.length>0) {
+      // polymerObj.$.chart.style.opacity = 0.5; // this is for testing
+      // polymerObj.$.data_errors.style.display = 'block'; // this is for testing
+      
+      for (i; i < errors.length; i++){  
+        // polymerObj.$.data_errors.appendChild(document.createElement('li')).innerHTML = errors[i].msg; // this is for testing
+        polymerObj.asyncFire('th-error', errors[i]); // where th-error is an object containing details
+      }
+    }
+    
 
-	},
-	chartSpecificDataValidate: function() {
-		/* each chart needs to implement this method */
-		return [];
-	}
+  },
+  chartSpecificDataValidate: function() {
+    /* each chart needs to implement this method */
+    return [];
+  }
 
 
 
@@ -41,7 +41,7 @@ Thelma.chartValidation = {
 
 Thelma.BarFamilyPrivateStaticMethods = function() {
 
-	  this.setupBarLabelDims = function(dims, chartData, overlap, gap, wrap) {
+    this.setupBarLabelDims = function(dims, chartData, overlap, gap, wrap) {
         
         // bars margin and dims
         dims.bars = {};
@@ -62,7 +62,7 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
         dims.values.maxLength = d3.max(chartData, function(d){  
           return  d.display_value ? d.display_value.length : d.value.toString().length;
          });
-        dims.values.size = Math.min(30,((dims.bars.width/dims.bars.overlap) / dims.values.maxLength / 0.6) );
+        dims.values.size = Math.min(30, Math.max(12, ((dims.bars.width/dims.bars.overlap) / dims.values.maxLength / 0.6) ));
         dims.values.margin = dims.values.size * 0.25;
 
         // Adjust top margin as necessary
@@ -73,16 +73,16 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
         // label margins and dims
         dims.labels = {};
         dims.labels.maxLength = d3.max(chartData, function(d){ return  d.label.length;}); 
-	      dims.labels.width = dims.labels.maxLength * 5.25; // This calc works with the font-size 13px
+        dims.labels.width = dims.labels.maxLength * 5.25; // This calc works with the font-size 13px
         dims.labels.lines = Math.ceil(dims.labels.maxLength * 8.25 / dims.bars.width); // Estimates the number of lines for wrapped labels
         dims.labels.height = dims.labels.lines * 16; // Estimates the size of the div to hold labels
 
-	      // If labels are long, angle them and adjust margins 
-	      // 1.1 worked with well with different labels but it might be a little bit too aggressive. (larger->more conservative)
-	     if (wrap){
+        // If labels are long, angle them and adjust margins 
+        // 1.1 worked with well with different labels but it might be a little bit too aggressive. (larger->more conservative)
+       if (wrap){
           dims.margin.bottom = dims.labels.height + dims.margin.label;
        } else if (dims.labels.width > dims.bars.width/dims.bars.overlap/1.3) { 
-	        dims.labels.angle = 25;
+          dims.labels.angle = 25;
           
           // increase bottom margin for angled labels
           dims.margin.bottom = dims.labels.width/1.5 + dims.margin.label;  
@@ -90,72 +90,72 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
           // increase right margin by width of last label
           dims.margin.right = dims.margin.right + chartData[chartData.length-1].label.length*5; 
           
-	    } else {
-	        dims.labels.angle = 0;
-	    }
+      } else {
+          dims.labels.angle = 0;
+      }
 
         return dims;        
 
-	}
+  }
   
 
-	
+  
 }
 
 Thelma.chartUtils = {
 
-	setupDimensions: function(polymerObj) {
-		var dims = {};
+  setupDimensions: function(polymerObj) {
+    var dims = {};
 
-		//TODO there needs to be height and visHeight?! later for drawing area (excluding labels and axis)?!
-		dims.margin = {
-		          top : 16,
-		          right : 0,
-		          bottom : 20,
-		          left : 0,
-		          label: 16
-		      }, 
+    //TODO there needs to be height and visHeight?! later for drawing area (excluding labels and axis)?!
+    dims.margin = {
+              top : 16,
+              right : 0,
+              bottom : 20,
+              left : 0,
+              label: 16
+          }, 
 
-	    dims.width = Math.max(100,(polymerObj.chartWidth*0.95 - dims.margin.left - dims.margin.right)), 
-	    dims.height = Math.max(150,(polymerObj.chartHeight*0.95 - dims.margin.top - dims.margin.bottom)),
-	    dims.textLabelMargin = dims.height*0.05;
+      dims.width = Math.max(100,(polymerObj.chartWidth*0.95 - dims.margin.left - dims.margin.right)), 
+      dims.height = Math.max(150,(polymerObj.chartHeight*0.95 - dims.margin.top - dims.margin.bottom)),
+      dims.textLabelMargin = dims.height*0.05;
       dims.margin.label = polymerObj.wrapLabels ? 3 : 16; // If wrapLabels, margin is less for HTML text
 
-	    // Bar dimensions 
-	    // dims.barGap = 0.3;
-	    // dims.numBars = polymerObj.chartData.length;  // DEPENDANT ON CHARTDATA
-	    // dims.barWidth = Math.min(70,((dims.width / dims.numBars)/(1+dims.barGap)));
-	    return dims;
+      // Bar dimensions 
+      // dims.barGap = 0.3;
+      // dims.numBars = polymerObj.chartData.length;  // DEPENDANT ON CHARTDATA
+      // dims.barWidth = Math.min(70,((dims.width / dims.numBars)/(1+dims.barGap)));
+      return dims;
 
-	},
-	/*
-	 *	builds simple x,y scales for charts. labelAccessFun and valueAccessFun are optional accessor functions.
-	*/ 
-	simpleScaleBuilder: function(width, height, chartData, orientation, labelAccessFun, valueAccessFun) {
+  },
+  /*
+   *  builds simple x,y scales for charts. labelAccessFun and valueAccessFun are optional accessor functions.
+  */ 
+  simpleScaleBuilder: function(width, height, chartData, orientation, labelAccessFun, valueAccessFun) {
 
-		  var VERTICAL = 'vertical',
-		  	  HORIZONTAL = 'horizontal';
-		  var scales = {};
-		  labelAccessFun = labelAccessFun || function(d) {return d.label}; 
-		  valueAccessFun = valueAccessFun || function(d) {return d.value}; 
-		  orientation = orientation || VERTICAL;
-		  
-		  scales.x = orientation===VERTICAL ? d3.scale.ordinal().rangeRoundBands([0, width], .1) 
-		  									: d3.scale.linear().range([0, width], .1);
-	      scales.y = orientation===VERTICAL ? d3.scale.linear().range([0, height])
-	      									: d3.scale.ordinal().rangeRoundBands([0, height]);
+      var VERTICAL = 'vertical',
+          HORIZONTAL = 'horizontal';
+      var scales = {};
+      labelAccessFun = labelAccessFun || function(d) {return d.label}; 
+      valueAccessFun = valueAccessFun || function(d) {return d.value}; 
+      orientation = orientation || VERTICAL;
       
-	      var max = d3.max(chartData, valueAccessFun);
+      scales.x = orientation===VERTICAL ? d3.scale.ordinal().rangeRoundBands([0, width], .1) 
+                        : d3.scale.linear().range([0, width], .1);
+        scales.y = orientation===VERTICAL ? d3.scale.linear().range([0, height])
+                          : d3.scale.ordinal().rangeRoundBands([0, height]);
+      
+        var max = d3.max(chartData, valueAccessFun);
         //start charts from 0 or smallest negative value.
         var min = Math.min(0, d3.min(chartData, valueAccessFun));
      
-	      scales.y.domain(orientation===VERTICAL ? [min, max] : d3.range(chartData.length)); 
-	      scales.x.domain(orientation===VERTICAL ? d3.range(chartData.length) : [min, max]);
+        scales.y.domain(orientation===VERTICAL ? [min, max] : d3.range(chartData.length)); 
+        scales.x.domain(orientation===VERTICAL ? d3.range(chartData.length) : [min, max]);
 
-	    return scales;
+      return scales;
 
-	},
-	setupValueDims: function(polymerObj){ 
+  },
+  setupValueDims: function(polymerObj){ 
         var dims = polymerObj.dims,
             chartData = polymerObj.chartData;
         
