@@ -1,4 +1,4 @@
-var Thelma = window.Thelma || {};
+  var Thelma = window.Thelma || {};
 
 Thelma.util = {
 
@@ -361,6 +361,20 @@ Thelma.chartUtils = {
              (match[1] ? match[1].length : 0)
              // Adjust for scientific notation.
              - (match[2] ? +match[2] : 0));
+    },
+    hexToRgb: function(hex){
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      // if (returnType === "obj"){
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;  
+      // } else {
+      //   // console.log(parseInt(result[1], 16).toString());
+      //   return result ? (parseInt(result[1], 16)) + "," + (parseInt(result[2], 16)) + "," + (parseInt(result[3], 16)) : null;
+      // }
+      
     }
 
 }
