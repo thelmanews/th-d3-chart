@@ -13,7 +13,7 @@ Thelma.chartValidation = {
     
     var errors = polymerObj.errors;
     var i = 0;
-    if(!polymerObj.chartData) {
+    if(polymerObj.chartData===undefined || polymerObj.chartData.length==0) {
       errors.push('no chart data');
     }
     errors = errors.concat(polymerObj.chartSpecificDataValidate());
