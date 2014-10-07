@@ -7,11 +7,12 @@ Thelma.util = {
 
 Thelma.chartValidation = {
 
-  errors : [],
+  errors : [],   //TODO what is this?
   validateChartData: function(polymerObj) {
     // polymerObj is passed to the function to make chartValidation not dependant on polymer
     
-    var errors = polymerObj.errors;
+    // empty error messages
+    var errors = []; //polymerObj.errors;
     var i = 0;
     if(polymerObj.chartData===undefined || polymerObj.chartData.length==0) {
       errors.push('no chart data');
