@@ -363,6 +363,12 @@ Thelma.chartUtils = {
              // Adjust for scientific notation.
              - (match[2] ? +match[2] : 0));
     },
+    addCommasToNum: function(num){
+      
+      var parts = num.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parts.join(".");
+    },
     hexToRgb: function(hex){
       var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return result ? {
