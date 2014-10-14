@@ -353,7 +353,7 @@ Thelma.chartUtils = {
     */
     getDecimalPlaces: function(num){
       var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
-        console.log(num);
+        
         if (!match) { return 0; }
         return Math.max(
              0,
