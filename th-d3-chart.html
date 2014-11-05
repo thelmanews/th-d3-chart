@@ -6,17 +6,24 @@
 
       
 
-<polymer-element name="th-d3-chart" extends="th-animated" attributes="chartData chartWidth chartHeight chartOptions defaultDisplayValues">
+<polymer-element name="th-d3-chart" extends="th-animated" attributes="chartData input chartWidth chartHeight chartOptions defaultDisplayValues">
   
   <script src="utility.js"></script> 
   <script>
 
       Polymer('th-d3-chart', Platform.mixin({
+         /**
+          * Chart data
+          * @type {Array}
+          */
          chartData: [{label: 'medicaid', value: 20, display_value: '$20', color:''},{label: 'gap', value: 40, display_value: '$40', color:''},{label: 'sub', value: 10, display_value: '$10', color:''}],  // default data just for demo 
          chartWidth: 200,
          chartHeight: 300,
          observe: {
            // chartData: this.validateChartData  // this is not working,
+         },
+         inputChanged: function() {
+            this.chartData = this.input;
          },
          chartDataChanged: function() {
             this.validateChartData(this);
@@ -85,20 +92,3 @@
   </script>
 
 </polymer-element>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
