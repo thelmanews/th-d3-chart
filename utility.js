@@ -116,32 +116,58 @@ Thelma.chartUtils = {
               left : 0,
               label: 16
           };
-          
+        
+      polymerObj.getComputedDims(polymerObj);
 
-      var percentMatch = /.*%/;
+      dims.width = Math.max(100,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
+      dims.height = Math.max(150,(polymerObj.computedHeight*0.95 - dims.margin.top - dims.margin.bottom));        
       
-      if(percentMatch.test(polymerObj.chartWidth)){
-        var percentWidth = parseFloat(polymerObj.chartWidth)/100,
-            percentHeight = parseFloat(polymerObj.chartHeight)/100,
-            parentWidth = polymerObj.parentNode.offsetWidth,
-            parentHeight = polymerObj.parentNode.offsetHeight;
-        console.log(parentWidth);
-        console.log(parentHeight);
-        dims.width = Math.max(100,(parentWidth*percentWidth - dims.margin.left - dims.margin.right));
-        dims.height = Math.max(150,(parentHeight*percentHeight*0.95 - dims.margin.top - dims.margin.bottom));        
-      }else{
-        dims.width = Math.max(100,(parseFloat(polymerObj.chartWidth) - dims.margin.left - dims.margin.right)); 
-        dims.height = Math.max(150,(parseFloat(polymerObj.chartHeight)*0.95 - dims.margin.top - dims.margin.bottom));       
-      }
 
       dims.textLabelMargin = dims.height*0.05;
       dims.margin.label = polymerObj.wrapLabels ? 3 : 16; // If wrapLabels, margin is less for HTML text
-
+      console.log(dims.width);
+      console.log(dims.height);
       // Bar dimensions 
       // dims.barGap = 0.3;
       // dims.numBars = polymerObj.chartData.length;  // DEPENDANT ON CHARTDATA
       // dims.barWidth = Math.min(70,((dims.width / dims.numBars)/(1+dims.barGap)));
       return dims;
+
+  },
+  /**
+   * 'getComputedDims' calculates a pixel width and height of a chart, given relative or absolute values for chartWidth and chartHeight
+   * @param  {[type]} polymerObj [description]
+   * @return {[type]}            [description]
+   */
+  getComputedDims: function(polymerObj){
+    var percentMatch = /.*%/;
+      
+    // Compute chartWidth
+    if(polymerObj.chartWidth && percentMatch.test(polymerObj.chartWidth)){
+      var percentWidth = parseFloat(polymerObj.chartWidth)/100,
+          parentWidth = polymerObj.parentNode.offsetWidth;
+      polymerObj.computedWidth = parentWidth*percentWidth;     
+    } else {
+      polymerObj.computedWidth = parseFloat(polymerObj.chartWidth);
+    }
+
+    // Compute chartHeight
+    if(polymerObj.chartHeight && percentMatch.test(polymerObj.chartHeight)){
+      var percentHeight = parseFloat(polymerObj.chartHeight)/100,
+          parentHeight = polymerObj.parentNode.offsetHeight;  
+      polymerObj.computedHeight = parentHeight*percentHeight;     
+    } else {
+      polymerObj.computedHeight = parseFloat(polymerObj.chartHeight);
+    }
+
+    // Compute chartSize
+    if(polymerObj.chartSize && percentMatch.test(polymerObj.chartSize)){
+      var percentSize = parseFloat(polymerObj.chartSize)/100,
+          parentSize = Math.min(polymerObj.parentNode.offsetHeight,polymerObj.parentNode.offsetWidth);
+      polymerObj.computedSize = parentSize*percentSize;     
+    } else {
+      polymerObj.computedSize = parseFloat(polymerObj.chartSize);
+    }
 
   },
 
@@ -252,23 +278,12 @@ Thelma.chartUtils = {
           remainingWidth;
       
       dims.margin = { top : 0, right : 0, bottom : 8, left : 0, label: 10, };
-
-      var percentMatch = /.*%/;
       
-      if(percentMatch.test(polymerObj.chartWidth)){
-        var percentWidth = parseFloat(polymerObj.chartWidth)/100,
-            percentHeight = parseFloat(polymerObj.chartHeight)/100,
-            parentWidth = polymerObj.parentNode.offsetWidth,
-            parentHeight = polymerObj.parentNode.offsetHeight;
-        
-        dims.width = Math.max(MIN_WIDTH,(parentWidth*percentWidth - dims.margin.left - dims.margin.right));
-        dims.height = Math.max(MIN_HEIGHT,(parentHeight*percentHeight - dims.margin.top - dims.margin.bottom));        
-      }else{
-        dims.width = Math.max(MIN_WIDTH,(polymerObj.chartWidth - dims.margin.left - dims.margin.right));
-        dims.height = Math.max(MIN_HEIGHT,(polymerObj.chartHeight - dims.margin.top - dims.margin.bottom));
+      polymerObj.getComputedDims(polymerObj);
 
-      }
-      
+      dims.width = Math.max(MIN_WIDTH,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
+      dims.height = Math.max(MIN_HEIGHT,(polymerObj.computedHeight - dims.margin.top - dims.margin.bottom));        
+    
       dims.bar = {};
       dims.labels = {};
       dims.values = {};
