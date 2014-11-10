@@ -136,8 +136,8 @@ Thelma.chartUtils = {
   },
   /**
    * 'getComputedDims' calculates a pixel width and height of a chart, given relative or absolute values for chartWidth and chartHeight
-   * @param  {[type]} polymerObj [description]
-   * @return {[type]}            [description]
+   * @param  {object} polymerObj (the element itself)
+   * => attributes computedHeight, computedWidth and/or computedSize are assigned to the component. 
    */
   getComputedDims: function(polymerObj){
     var percentMatch = /.*%/;
