@@ -141,34 +141,33 @@ Thelma.chartUtils = {
    */
   getComputedDims: function(polymerObj){
     var percentMatch = /.*%/;
-      
+
     // Compute chartWidth
-    if(polymerObj.chartWidth && percentMatch.test(polymerObj.chartWidth)){
+    if(polymerObj.chartWidth && polymerObj.parentNode && percentMatch.test(polymerObj.chartWidth)){
       var percentWidth = parseFloat(polymerObj.chartWidth)/100,
           parentWidth = polymerObj.parentNode.offsetWidth;
       polymerObj.computedWidth = parentWidth*percentWidth;     
-    } else {
+    } else if(polymerObj.chartWidth){
       polymerObj.computedWidth = parseFloat(polymerObj.chartWidth);
     }
 
     // Compute chartHeight
-    if(polymerObj.chartHeight && percentMatch.test(polymerObj.chartHeight)){
+    if(polymerObj.chartHeight && polymerObj.parentNode && percentMatch.test(polymerObj.chartHeight)){
       var percentHeight = parseFloat(polymerObj.chartHeight)/100,
           parentHeight = polymerObj.parentNode.offsetHeight;  
       polymerObj.computedHeight = parentHeight*percentHeight;     
-    } else {
+    } else if(polymerObj.chartHeight) {
       polymerObj.computedHeight = parseFloat(polymerObj.chartHeight);
     }
 
     // Compute chartSize
-    if(polymerObj.chartSize && percentMatch.test(polymerObj.chartSize)){
+    if(polymerObj.chartSize && polymerObj.parentNode && percentMatch.test(polymerObj.chartSize)){
       var percentSize = parseFloat(polymerObj.chartSize)/100,
           parentSize = Math.min(polymerObj.parentNode.offsetHeight,polymerObj.parentNode.offsetWidth);
       polymerObj.computedSize = parentSize*percentSize;     
-    } else {
+    } else if(polymerObj.chartSize) {
       polymerObj.computedSize = parseFloat(polymerObj.chartSize);
     }
-
   },
 
   /*
