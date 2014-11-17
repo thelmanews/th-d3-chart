@@ -4,8 +4,7 @@
   "keywords": "seed, polymer, web-components",
   "main": "th-d3-chart.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#0.3.4",
-    "platform": "Polymer/platform#0.3.4",
+    "polymer": "Polymer/polymer#~0.5.1",
     "d3": "latest",
     "th-animated": "https://github.com/thelmanews/th-animated.git",
     "th-theme": "https://github.com/thelmanews/th-theme.git"
