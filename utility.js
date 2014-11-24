@@ -125,8 +125,7 @@ Thelma.chartUtils = {
 
       dims.textLabelMargin = dims.height*0.05;
       dims.margin.label = polymerObj.wrapLabels ? 3 : 16; // If wrapLabels, margin is less for HTML text
-      console.log(dims.width);
-      console.log(dims.height);
+
       // Bar dimensions 
       // dims.barGap = 0.3;
       // dims.numBars = polymerObj.chartData.length;  // DEPENDANT ON CHARTDATA
