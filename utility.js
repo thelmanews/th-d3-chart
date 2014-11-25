@@ -117,7 +117,10 @@ Thelma.chartUtils = {
               label: 16
           };
         
-    polymerObj.getComputedDims(polymerObj);
+
+      polymerObj.computedWidth = polymerObj.computeWidth();
+      polymerObj.computedHeight = polymerObj.computeHeight();
+
 
     var MIN_WIDTH = 50,
         MIN_HEIGHT = 50;
