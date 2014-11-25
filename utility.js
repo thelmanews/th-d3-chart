@@ -117,7 +117,8 @@ Thelma.chartUtils = {
               label: 16
           };
         
-      polymerObj.getComputedDims(polymerObj);
+      polymerObj.computedWidth = polymerObj.computeWidth();
+      polymerObj.computedHeight = polymerObj.computeHeight();
 
       dims.width = Math.max(100,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
       dims.height = Math.max(150,(polymerObj.computedHeight*0.95 - dims.margin.top - dims.margin.bottom));        
