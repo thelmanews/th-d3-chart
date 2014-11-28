@@ -116,7 +116,6 @@ Thelma.chartUtils = {
               left : 0,
               label: 16
           };
-        
 
       polymerObj.computedWidth = polymerObj.computeWidth();
       polymerObj.computedHeight = polymerObj.computeHeight();
