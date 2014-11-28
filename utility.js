@@ -116,14 +116,16 @@ Thelma.chartUtils = {
               left : 0,
               label: 16
           };
-        
+      
+      var MIN_WIDTH = 50,
+          MIN_HEIGHT = 50;
+
       polymerObj.computedWidth = polymerObj.computeWidth();
       polymerObj.computedHeight = polymerObj.computeHeight();
 
-      dims.width = Math.max(100,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
-      dims.height = Math.max(150,(polymerObj.computedHeight*0.95 - dims.margin.top - dims.margin.bottom));        
+      dims.width = Math.max(MIN_WIDTH,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
+      dims.height = Math.max(MIN_HEIGHT,(polymerObj.computedHeight*0.95 - dims.margin.top - dims.margin.bottom));        
       
-
       dims.textLabelMargin = dims.height*0.05;
       dims.margin.label = polymerObj.wrapLabels ? 3 : 16; // If wrapLabels, margin is less for HTML text
 
