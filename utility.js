@@ -75,9 +75,9 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
         dims.labels = {};
         dims.labels.maxLength = d3.max(chartData, function(d){ return  d.label.length;}); 
         dims.labels.width = dims.labels.maxLength * 5.25; // This calc works with the font-size 13px
-        dims.labels.lines = Math.ceil(dims.labels.maxLength * 8.25 / dims.bars.width); // Estimates the number of lines for wrapped labels
+        dims.labels.lines = Math.ceil(dims.labels.maxLength * 8 / dims.bars.width); // Estimates the number of lines for wrapped labels
         dims.labels.height = dims.labels.lines * 16; // Estimates the size of the div to hold labels
-
+console.log(dims.labels.lines);
         // If labels are long, angle them and adjust margins 
         // 1.1 worked with well with different labels but it might be a little bit too aggressive. (larger->more conservative)
        if (wrap){
@@ -86,7 +86,7 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
           dims.labels.angle = 25;
           
           // increase bottom margin for angled labels
-          dims.margin.bottom = dims.labels.width/1.5 + dims.margin.label;  
+          dims.margin.bottom = dims.labels.width/1.7 + dims.margin.label;  
           
           // increase right margin by width of last label
           dims.margin.right = dims.margin.right + chartData[chartData.length-1].label.length*5; 
@@ -117,20 +117,22 @@ Thelma.chartUtils = {
               label: 16
           };
         
-      polymerObj.getComputedDims(polymerObj);
+    polymerObj.getComputedDims(polymerObj);
 
-      dims.width = Math.max(100,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
-      dims.height = Math.max(150,(polymerObj.computedHeight*0.95 - dims.margin.top - dims.margin.bottom));        
-      
+    var MIN_WIDTH = 50,
+        MIN_HEIGHT = 50;
+    dims.width = Math.max(MIN_WIDTH,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
+    dims.height = Math.max(MIN_HEIGHT,(polymerObj.computedHeight*0.95 - dims.margin.top - dims.margin.bottom));        
+    
 
-      dims.textLabelMargin = dims.height*0.05;
-      dims.margin.label = polymerObj.wrapLabels ? 3 : 16; // If wrapLabels, margin is less for HTML text
+    dims.textLabelMargin = dims.height*0.05;
+    dims.margin.label = polymerObj.wrapLabels ? 3 : 16; // If wrapLabels, margin is less for HTML text
 
-      // Bar dimensions 
-      // dims.barGap = 0.3;
-      // dims.numBars = polymerObj.chartData.length;  // DEPENDANT ON CHARTDATA
-      // dims.barWidth = Math.min(70,((dims.width / dims.numBars)/(1+dims.barGap)));
-      return dims;
+    // Bar dimensions 
+    // dims.barGap = 0.3;
+    // dims.numBars = polymerObj.chartData.length;  // DEPENDANT ON CHARTDATA
+    // dims.barWidth = Math.min(70,((dims.width / dims.numBars)/(1+dims.barGap)));
+    return dims;
 
   },
   /**
