@@ -112,7 +112,7 @@ Thelma.chartUtils = {
     dims.margin = {
               top : 16,
               right : 0,
-              bottom : 20,
+              bottom : 25,
               left : 0,
               label: 16
           };
