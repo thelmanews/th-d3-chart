@@ -158,8 +158,8 @@ Thelma.chartUtils = {
         scales.y = orientation===VERTICAL ? d3.scale.linear().range([0, height])
                           : d3.scale.ordinal().rangeRoundBands([0, height]);
       
-        var max = d3.max(chartData, valueAccessFun);
-        //start charts from 0 or smallest negative value.
+        var max = Math.max(0,d3.max(chartData, valueAccessFun));
+        
         var min = Math.min(0, d3.min(chartData, valueAccessFun));
      
         scales.y.domain(orientation===VERTICAL ? [min, max] : d3.range(chartData.length)); 
@@ -403,6 +403,20 @@ Thelma.chartUtils = {
         b: parseInt(result[3], 16)
       } : null;  
 
+    },
+    cleanChartData: function(chartData){
+      for(var i=0;i<chartData.length; i++){
+        var str = chartData[i].display_value;
+        if (str){
+          chartData[i].display_value = this.escapeChars(str);
+        }
+      }
+      return chartData;
+    },
+    escapeChars: function(str){
+      str = str.replace(/&quot;/g, "\"");
+      str = str.replace(/&#x27;/g, "'");
+      return str;
     }
 
 }
