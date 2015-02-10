@@ -403,6 +403,20 @@ Thelma.chartUtils = {
         b: parseInt(result[3], 16)
       } : null;  
 
+    },
+    cleanChartData: function(chartData){
+      for(var i=0;i<chartData.length; i++){
+        var str = chartData[i].display_value;
+        if (str){
+          chartData[i].display_value = this.escapeChars(str);
+        }
+      }
+      return chartData;
+    },
+    escapeChars: function(str){
+      str = str.replace(/&quot;/g, "\"");
+      str = str.replace(/&#x27;/g, "'");
+      return str;
     }
 
 }
