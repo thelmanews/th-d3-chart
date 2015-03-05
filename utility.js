@@ -273,12 +273,12 @@ Thelma.chartUtils = {
         // Set bar width in proportion to total width
         remainingWidth = dims.width;
         dims.bar.width = barWidth || dims.width / 3.25;
-        remainingWidth -= dims.margin.label*2 + dims.bar.width;
+        remainingWidth -= dims.margin.label*2 + dims.bar.width + 2; // Additional 2px of extra margin to account for font variation
 
         // Estimate length of labels and calculate width/height of container given word wrap
         dims.labels.maxLength = d3.max(chartData, function(d){ return d.label ? d.label.length : 0;}); // in number of characters
         dims.labels.width = dims.labels.maxLength * 8.25; // in estimated pixels 
-        dims.labels.containerWidth = remainingWidth/2;  
+        dims.labels.containerWidth = remainingWidth/2;
         dims.labels.lines = Math.ceil(dims.labels.width / dims.labels.containerWidth); // estimate # of lines given container width
         dims.labels.containerHeight = dims.labels.lines * 16; // estimate height given number of lines
         remainingWidth -= dims.labels.containerWidth;
@@ -295,7 +295,7 @@ Thelma.chartUtils = {
           }
         });
         dims.values.width = dims.values.maxLength * 8.25; // in estimated pixels 
-        dims.values.containerWidth = Math.min(dims.values.width, remainingWidth);  
+        dims.values.containerWidth = Math.min(dims.values.width, remainingWidth) + 2; // Additional 2px of extra margin to account for font variation  
         dims.values.lines = Math.ceil(dims.values.width / dims.values.containerWidth);  // estimate # of lines given container width
         dims.values.containerHeight = dims.values.lines * 16; // estimate height given number of lines
         
