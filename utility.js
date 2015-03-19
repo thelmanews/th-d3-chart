@@ -77,7 +77,7 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
         dims.labels.width = dims.labels.maxLength * 5.25; // This calc works with the font-size 13px
         dims.labels.lines = Math.ceil(dims.labels.maxLength * 8 / dims.bars.width); // Estimates the number of lines for wrapped labels
         dims.labels.height = dims.labels.lines * 16; // Estimates the size of the div to hold labels
-console.log(dims.labels.lines);
+
         // If labels are long, angle them and adjust margins 
         // 1.1 worked with well with different labels but it might be a little bit too aggressive. (larger->more conservative)
        if (wrap){
@@ -324,9 +324,8 @@ Thelma.chartUtils = {
  
      addMoreColors: function(polymerObj){
       var newAccents = polymerObj.colors.accents.map(function(color){
-        
-        return Thelma.chartUtils.changeBrightness(color, 0.3);
-      });
+        return this.changeBrightness(color, 0.3);
+      }.bind(this));
 
       // add new colors to accents array
       polymerObj.colors.accents = polymerObj.colors.accents.concat(newAccents);
