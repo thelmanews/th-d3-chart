@@ -42,7 +42,7 @@ Thelma.chartValidation = {
 
 Thelma.BarFamilyPrivateStaticMethods = function() {
 
-    this.setupBarLabelDims = function(dims, chartData, overlap, gap, wrap) {
+    this.setupBarLabelDims = function(dims, chartData, overlap, gap, wrap, polymerObj) {
         
         // bars margin and dims
         dims.bars = {};
@@ -74,7 +74,34 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
         // label margins and dims
         dims.labels = {};
         dims.labels.maxLength = d3.max(chartData, function(d){ return  d.label ? d.label.length : 0;}); 
-        dims.labels.width = dims.labels.maxLength * 5.25; // This calc works with the font-size 13px
+
+        // find the exact width of labels
+        if(polymerObj) {
+          var mockLabels = d3.select(polymerObj.$.chart).selectAll('.mock').data(chartData);
+          mockLabels.enter().append('text');
+
+          var computedLengths = [];
+
+          mockLabels
+            .style('text-anchor','end')
+            .style('font-size', function(d) { return dims.values.fontSize+'px';})
+          .text(function(d) {return d.label ;})
+            .attr('class', function(d) {
+              return 'label mock';
+            })
+            .attr('mock', function(d) {
+              computedLengths.push(this.getComputedTextLength());
+              return 'mock';
+            });
+
+          d3.select(polymerObj.$.chart).selectAll('.mock').remove();
+         
+
+          var computedValueWidth = d3.max(computedLengths);
+        }
+ 
+
+        dims.labels.width = computedValueWidth || dims.labels.maxLength * 5.25; // if no computedValueWidth, estimate by font-size 13px
         dims.labels.lines = Math.ceil(dims.labels.maxLength * 8 / dims.bars.width); // Estimates the number of lines for wrapped labels
         dims.labels.height = dims.labels.lines * 16; // Estimates the size of the div to hold labels
 
