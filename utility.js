@@ -337,7 +337,12 @@ Thelma.chartUtils = {
       mockValues
         .style('text-anchor','end')
         .style('font-size', function(d) { return dims.values.fontSize+'px';})
-      .text(function(d) {return d.display_value || d.value ;})
+      .text(function(d) {
+          return  d.range_min_display_value + ' - ' +  d.range_max_display_value ||
+                  d.range_min_value + ' - ' +  d.range_max_value ||
+                  d.display_value ||
+                  d.value ;
+        })
         .attr('class', function(d) {
           return 'label mock';
         })
