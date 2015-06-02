@@ -97,11 +97,13 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
           d3.select(polymerObj.$.chart).selectAll('.mock').remove();
          
 
-          var computedValueWidth = d3.max(computedLengths);
+          var computedMaxLabelWidth = d3.max(computedLengths);
+          var computedLastLabelWidth = computedLengths[computedLengths.length-1];
+
         }
  
 
-        dims.labels.width = computedValueWidth || dims.labels.maxLength * 5.25; // if no computedValueWidth, estimate by font-size 13px
+        dims.labels.width = computedMaxLabelWidth || dims.labels.maxLength * 5.25; // if no computedValueWidth, estimate by font-size 13px
         dims.labels.lines = Math.ceil(dims.labels.maxLength * 8 / dims.bars.width); // Estimates the number of lines for wrapped labels
         dims.labels.height = dims.labels.lines * 16; // Estimates the size of the div to hold labels
 
@@ -116,9 +118,11 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
           dims.margin.bottom = dims.labels.width/1.7 + dims.margin.label;  
           
           // increase right margin by width of last label
-          var lastLabel = chartData[chartData.length - 1].label,
-              lastLabelLength = lastLabel ? lastLabel.length : 0;
-          dims.margin.right = dims.margin.right + lastLabelLength*5; 
+          var lastLabel = chartData[chartData.length - 1].label;
+
+          // use computedLastLabelWidth calculated by mockLabels if available
+          var lastLabelLength =  (lastLabel ? lastLabel.length : 0);
+          dims.margin.right = dims.margin.right + (computedLastLabelWidth ||lastLabelLength*5); 
           
       } else {
           dims.labels.angle = 0;
