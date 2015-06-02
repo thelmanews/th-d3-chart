@@ -383,14 +383,15 @@ Thelma.chartUtils = {
         
         dims.labels.containerWidth = remainingWidth/2;
         
-        dims.labels.containerHeight = labelHeight;
+        // times 2: a hack to avoid 2 line labels to be cut-off. there is no harm in having longer foreingObjects        
+        dims.labels.containerHeight = labelHeight * 2; 
         
         remainingWidth -= dims.labels.containerWidth;
 
         dims.values.width = maxValueWidth;
         dims.values.containerWidth = Math.min(dims.values.width, remainingWidth) + 2;
 
-        dims.values.containerHeight = computedValueHeight;
+        dims.values.containerHeight = valueHeight;
 
       }
 
