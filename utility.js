@@ -349,6 +349,7 @@ Thelma.chartUtils = {
         .attr('mock', function(d) {
           computedValueHeight = this.getBBox().height;
           computedLengths.push(this.getComputedTextLength());
+          dims.labels.height = computedHeight = this.getBBox().height;
           return 'mock';
         });
 
@@ -358,6 +359,7 @@ Thelma.chartUtils = {
       computedMaxValueWidth = d3.max(computedLengths);
       computedLastValueWidth = computedLengths[computedLengths.length-1];
 
+      
 
 
       do  {
