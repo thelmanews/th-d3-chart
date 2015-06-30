@@ -106,7 +106,26 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
 
           dims.labels.width = computedMaxLabelWidth;
           dims.labels.lines = Math.ceil(computedMaxLabelWidth  / dims.bars.width) +1; // (over)Estimates the number of lines for wrapped labels
-          dims.labels.height = dims.labels.lines * 20; // Estimates the size of the div to hold labels
+          dims.labels.height = dims.labels.lines * 16;
+          
+          if(polymerObj.wrapLabels) {
+
+            //calculating div height for wrapped labels.
+            var wrappedHeights = [];
+            d3.select(polymerObj.$.chart).selectAll('.mock').data(chartData).enter()
+            .append("foreignObject")
+            .append('xhtml:div').attr('class', function(d,i){ return "label wrapped-labels data"+i;})
+            .html(function(d) {return d.label;})
+            .attr('mock', function(d) {
+              wrappedHeights.push(this.offsetHeight);
+              return 'mock';
+            });
+            d3.select(polymerObj.$.chart).selectAll('.mock').remove();
+
+            dims.labels.height = d3.max(wrappedHeights);
+
+          }
+          
 
         }
         else {
