@@ -114,7 +114,7 @@ Thelma.BarFamilyPrivateStaticMethods = function() {
             var wrappedHeights = [];
             d3.select(polymerObj.$.chart).selectAll('.mock').data(chartData).enter()
             .append("foreignObject")
-            .append('xhtml:div').attr('class', function(d,i){ return "label wrapped-labels data"+i;})
+            .append('xhtml:div').attr('class', function(d,i){ return "label mock wrapped-labels data"+i;})
             .html(function(d) {return d.label;})
             .attr('mock', function(d) {
               wrappedHeights.push(this.offsetHeight);
